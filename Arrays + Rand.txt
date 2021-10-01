@@ -1,0 +1,74 @@
+#include <iostream>
+
+using namespace std;
+/*
+//Рандом + массив
+
+int main()
+{
+	setlocale(0, "");
+
+    srand(time(0));
+
+    cout << "Обработка массива" << endl;
+    int array[10];                                              // объявление и инициализация одномерного массива
+    cout << "Индекс" << "\t\t" << "Элемент массива" << endl;    // печать заголовков
+    for (int i = 0; i < 16; i++)                                //начало цикла
+    {
+        array[i] = rand() % 200 + (-100);
+        //вывод на экран индекса ячейки массива, а затем содержимого этой ячейки
+        cout << "array [" << i << "] " << "\t\t" << array[i] << endl;
+    }
+
+    system("pause");
+	return 0;
+}
+*/
+
+/*
+//Ввод эл-ов массива и его сумма
+int main()
+{
+    setlocale(0, "");
+
+    int array[4];                                   // объявляем целочисленный массив
+    cout << "Введите элементы массива: " << endl;   // кол-во эл-ов зависит от переменной counter
+    int sum = 0;
+    for (int counter = 0; counter < 4; counter++)   // цикл для считывания чисел
+        cin >> array[counter];                      // считываем вводимые с клавиатуры числа
+    cout << "array = { ";
+    for (int counter = 0; counter < 4; counter++)   // цикл для вывода элементов массива
+        cout << array[counter] << " ";              // выводим элементы массива на стандартное устройство вывода
+    for (int counter = 0; counter < 4; counter++)   // цикл для суммирования чисел массива
+        sum += array[counter];                      // суммируем элементы массива
+    cout << "}\nsum = " << sum << endl;
+
+    system("pause");
+    return 0;
+}
+*/
+
+
+//Двумерный статичный массив
+int main()
+{
+    setlocale(0, "");
+
+
+    cout << "\nДвумерный массив" << endl;
+    int a[3][3]{};
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            cout << a[i][j] << "\t";
+        }
+        cout << "\n\n";
+        
+    }
+
+
+
+    system("pause");
+    return 0;
+}

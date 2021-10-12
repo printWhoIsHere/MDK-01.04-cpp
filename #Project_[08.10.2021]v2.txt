@@ -12,16 +12,21 @@ int main()
     cout << "[2] Квадрат\n";
     cout << "[3] Прямоугольник\n";
     cout << "[4] Треугольник\n";
+    cout << "[5] Круг\n";
     cout << "[0] Выход\n\n";
 
     cout << "Геометрическая фигура №: ";
     cin >> figure;
 
+    cout << "Выберите текстуру для вашей фигуры: ";
+    char texture;
+    cin >> texture;
+
     switch (figure)
     {
     case 1:
     {
-        int line_type;
+        int type_line;
         cout << "\n\aВыберите тип Линии:" << endl;
         cout << "[1] Линия\n";
         cout << "[2] Линия (Вертикальная)\n";
@@ -29,9 +34,9 @@ int main()
         cout << "[4] Слеш (Обратный)\n\n";
 
         cout << "Линия №: ";
-        cin >> line_type;
+        cin >> type_line;
 
-        switch (line_type)
+        switch (type_line)
         {
         case 1:
         {
@@ -41,7 +46,7 @@ int main()
 
             while (shape_size > 0)
             {
-                cout << '*';
+                cout << texture << ' ';
                 shape_size -= 1;
             }
             break;
@@ -54,7 +59,7 @@ int main()
 
             while (shape_size > 0)
             {
-                cout << "\t" << '*' << endl;
+                cout << "\t" << texture << ' ' << endl;
                 shape_size -= 1;
             }
             break;
@@ -72,7 +77,7 @@ int main()
                 {
                     if (i == j)
                     {
-                        cout << '*';
+                        cout << texture;
                     }
                     else
                     {
@@ -97,7 +102,7 @@ int main()
                 {
                     if (i == j)
                     {
-                        cout << '*';
+                        cout << texture;
                     }
                     else
                     {
@@ -123,7 +128,7 @@ int main()
             cout << "\t";
             for (int j = 0; j < shape_size; j++)
             {
-                cout << '*' << ' ';
+                cout << texture << ' ';
             }
             cout << endl;
         }
@@ -131,22 +136,52 @@ int main()
     }
     case 3:
     {
-        int width, length;
+        int width, height;
         cout << "Введите длину Прямоугольника: ";
-        cin >> length;
+        cin >> height;
         cout << "Введите ширину Прямоугольника: ";
         cin >> width;
 
+        int type_rectangle;
+        cout << "\nВведите длину Прямоугольника: ";
+        cout << "\n[1] Сплошной Прямоугольник: ";
+        cout << "\n[2] Полый Прямоугольник: ";
+        cin >> type_rectangle;
         cout << endl << endl;
 
-        for (int i = 0; i < width; i++)
+        switch (type_rectangle)
         {
-            cout << "\t";
-            for (int j = 0; j < length; j++)
+        case 1:
+        {
+            for (int i = 0; i < width; i++)
             {
-                cout << '*' << ' ';
+                cout << "\t";
+                for (int j = 0; j < height; j++)
+                {
+                    cout << texture << ' ';
+                }
+                cout << endl;
             }
-            cout << endl;
+            break;
+        }
+        case 2:
+        {
+            for (int i = 1; i <= height; i++)
+            {
+                cout << "\t";
+                for (int j = 1; j <= width; j++)
+                {
+                    cout << ' ';
+                    if ((i == 1 || i == height) || (j == 1 || j == width))
+                        cout << texture;
+                    else
+                        cout << ' ';
+                }
+                cout << endl;
+            }
+            break;
+        }
+        default: { cout << endl << "В данном списке такой фигуры не имеется"; break; }
         }
         break;
     }
@@ -167,11 +202,16 @@ int main()
             }
             for (int i = 0; i <= a * 2; i++)
             {
-                cout << '*';
+                cout << texture;
             }
             cout << endl;
             a++;
         }
+        break;
+    }
+    case 5:
+    {
+
         break;
     }
     case 0: { break; }

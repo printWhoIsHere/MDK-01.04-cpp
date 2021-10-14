@@ -10,7 +10,7 @@ void menu();
 void paint_Line() {
 
     short length, type_line;
-    cout << "\n\n--------------------\n    Линия\n--------------------\n";
+    cout << "\n\n--------------------\n\tЛиния\n--------------------\n";
     cout << "[0] Выход в меню\n";
     cout << "--------------------\n";
     cout << "[1] Линия\n";
@@ -99,7 +99,7 @@ void paint_Line() {
 }
 
 void paint_Square() {
-    cout << "--------------------\n    Квадрат\n--------------------\n";
+    cout << "--------------------\n\tКвадрат\n--------------------\n";
     cout << "Введите длинну стороны: ";
     short shape_size;
     cin >> shape_size;
@@ -117,7 +117,7 @@ void paint_Square() {
 }
 void paint_Rectangle() {
     short width, height;
-    cout << "--------------------\n    Прямоугольник\n--------------------\n";
+    cout << "--------------------\n\tПрямоугольник\n--------------------\n";
     cout << "Введите длину Прямоугольника: ";
     cin >> height;
     cout << "Введите ширину Прямоугольника: ";
@@ -166,7 +166,7 @@ void paint_Rectangle() {
 }
 void paint_triangle() {
 
-    cout << "--------------------\n    Треугольник\n--------------------\n";
+    cout << "--------------------\n\tТреугольник\n--------------------\n";
     cout << "Введите высоту Треугольника: ";
     short height;
     cin >> height;
@@ -188,7 +188,7 @@ void paint_triangle() {
     system("pause"); menu();
 }
 void paint_circle() {
-    cout << "--------------------\n    Круг\n--------------------\n";
+    cout << "--------------------\n\tКруг\n--------------------\n";
     cout << "Введите радиус: ";
     int radius;
     cin >> radius;
@@ -206,7 +206,7 @@ void paint_circle() {
     system("pause"); menu();
 }
 void paint_plus() {
-    cout << "--------------------\n    Плюс\n--------------------\n";
+    cout << "--------------------\n\tПлюс\n--------------------\n";
     cout << "Введите длину Плюса: ";
     short plus_size;
     cin >> plus_size;
@@ -226,7 +226,7 @@ void paint_plus() {
 }
 
 void paint_Square_in_Square() {
-    cout << "--------------------\n    Квадрат в квадрате\n--------------------\n";
+    cout << "--------------------\n\tКвадрат в квадрате\n--------------------\n";
     cout << "Введите длинну стороны: ";
     short shape_size;
     cin >> shape_size;
@@ -262,7 +262,6 @@ void menu() {
     cout << "[5] Круг\n";
     cout << "[6] Плюс\n";
     cout << "[7] Квадрат в квадрате\n";
-
     cout << "--------------------\n";
     cout << "\n\aВыберите геометрическую фигуру: ";
     short condition; cin >> condition;
@@ -271,34 +270,34 @@ void menu() {
     cin >> texture;
 
     switch (condition) {
-    case 0:
-        abort();
-        break;
-    case 1:
-        paint_Line();
-        break;
-    case 2:
-        paint_Square();
-        break;
-    case 3:
-        paint_Rectangle();
-        break;
-    case 4:
-        paint_triangle();
-        break;
-    case 5:
-        paint_circle();
-        break;
-    case 6:
-        paint_plus();
-        break;
-    case 7:
-        paint_Square_in_Square();
-        break;
-    default:
-        clear();
-        menu();
-    }
+        case 0:
+            abort();
+            break;
+        case 1:
+            paint_Line();
+            break;
+        case 2:
+            paint_Square();
+            break;
+        case 3:
+            paint_Rectangle();
+            break;
+        case 4:
+            paint_triangle();
+            break;
+        case 5:
+            paint_circle();
+            break;
+        case 6:
+            paint_plus();
+            break;
+        case 7:
+            paint_Square_in_Square();
+            break;
+        default:
+            clear();
+            menu();
+        }
 }
 
 int main(int argc, char* argv[]) {

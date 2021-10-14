@@ -84,7 +84,7 @@ void paint_Line() {
                     {
                         cout << "\n\t" << texture;
                     }
-                    else
+                     else
                     {
                         cout << ' ';
                     }
@@ -99,7 +99,7 @@ void paint_Line() {
 }
 
 void paint_Square() {
-    cout << "--------------------\n\tКвадрат\n--------------------\n";
+    cout << "\n\n--------------------\n\tКвадрат\n--------------------\n";
     cout << "Введите длинну стороны: ";
     short shape_size;
     cin >> shape_size;
@@ -117,7 +117,7 @@ void paint_Square() {
 }
 void paint_Rectangle() {
     short width, height;
-    cout << "--------------------\n\tПрямоугольник\n--------------------\n";
+    cout << "\n\n--------------------\n\tПрямоугольник\n--------------------\n";
     cout << "Введите длину Прямоугольника: ";
     cin >> height;
     cout << "Введите ширину Прямоугольника: ";
@@ -166,7 +166,7 @@ void paint_Rectangle() {
 }
 void paint_triangle() {
 
-    cout << "--------------------\n\tТреугольник\n--------------------\n";
+    cout << "\n\n--------------------\n\tТреугольник\n--------------------\n";
     cout << "Введите высоту Треугольника: ";
     short height;
     cin >> height;
@@ -188,7 +188,7 @@ void paint_triangle() {
     system("pause"); menu();
 }
 void paint_circle() {
-    cout << "--------------------\n\tКруг\n--------------------\n";
+    cout << "\n\n--------------------\n\tКруг\n--------------------\n";
     cout << "Введите радиус: ";
     int radius;
     cin >> radius;
@@ -206,7 +206,7 @@ void paint_circle() {
     system("pause"); menu();
 }
 void paint_plus() {
-    cout << "--------------------\n\tПлюс\n--------------------\n";
+    cout << "\n\n--------------------\n\tПлюс\n--------------------\n";
     cout << "Введите длину Плюса: ";
     short plus_size;
     cin >> plus_size;
@@ -235,9 +235,9 @@ void paint_Square_in_Square() {
     {
         for (int j = 0; j < shape_size; j++) {
             if ((min(min(i, shape_size - 1 - i), min(j, shape_size - 1 - j)) % 2) == 0)
-                cout << texture << ' ';
+                cout << texture << " ";
             else
-                cout << ' ';
+                cout << "  ";
         }
 
         cout << endl;

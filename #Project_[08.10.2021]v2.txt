@@ -84,7 +84,7 @@ void paint_Line() {
                     {
                         cout << "\n\t" << texture;
                     }
-                     else
+                    else
                     {
                         cout << ' ';
                     }
@@ -125,7 +125,7 @@ void paint_Rectangle() {
     cout << "--------------------\n";
 
     short type_rectangle;
-    cout << "\nВыберите тип прямоугольника: ";
+    cout << "\nВыберите тип Прямоугольника: ";
     cout << "\n--------------------\n";
     cout << "\n[1] Заполненный Прямоугольник: ";
     cout << "\n[2] Не заполненный Прямоугольник: ";
@@ -133,35 +133,35 @@ void paint_Rectangle() {
     cin >> type_rectangle;
 
     switch (type_rectangle) {
-        case 1: {
-            for (int i = 0; i < width; i++) {
-                cout << "\t";
-                for (int j = 0; j < height; j++) {
-                    cout << texture << ' ';
-                }
-                cout << endl;
+    case 1: {
+        for (int i = 0; i < width; i++) {
+            cout << "\t";
+            for (int j = 0; j < height; j++) {
+                cout << texture << ' ';
             }
-            system("pause"); menu(); break;
+            cout << endl;
         }
-        case 2: {
-            for (int i = 0; i < width; i++) {
-                cout << " ";
-                for (int j = 0; j < height; j++) {
-                    if ((i == 0 or i == width - 1) or (j == 0 or j == height - 1))
-                        cout << texture;
-                    else
-                        cout << " ";
-                }
-                cout << endl; paint_Rectangle();
+        system("pause"); menu(); break;
+    }
+    case 2: {
+        for (int i = 0; i < width; i++) {
+            cout << " ";
+            for (int j = 0; j < height; j++) {
+                if ((i == 0 or i == width - 1) or (j == 0 or j == height - 1))
+                    cout << texture;
+                else
+                    cout << " ";
             }
+            cout << endl; paint_Rectangle();
+        }
 
-            system("pause"); menu(); break;
-        }
-        default: {
-            clear();
-            paint_Rectangle();
-            break;
-        }
+        system("pause"); menu(); break;
+    }
+    default: {
+        clear();
+        paint_Rectangle();
+        break;
+    }
     }
 }
 void paint_triangle() {
@@ -246,6 +246,57 @@ void paint_Square_in_Square() {
     system("pause"); menu();
 }
 
+void paint_Chess_Board() {
+    cout << "--------------------\n\tШахматная доска\n--------------------\n";
+    cout << "Введите длинну стороны: ";
+    short shape_size;
+    cin >> shape_size;
+    cout << "Введите текстуру доски: \n[2 символа]\n" ;
+    char texture_1, texture_2;
+    cin >> texture_1 >> texture_2;
+    cout << "--------------------\n";
+    for (int i = 0; i < shape_size; i++)
+    {
+        for (int j = 0; j < shape_size; j++)
+        {
+            if ((i + j) % 2 == 0)
+            {
+                cout << texture_1 << " ";
+            }
+            else
+            {
+                cout << texture_2 << " ";
+            }
+        }
+        cout << endl;
+    }
+    system("pause"); menu();
+}
+
+void paint_Grid() {
+    cout << "--------------------\n\tРешётка\n--------------------\n";
+    cout << "Введите длинну стороны: ";
+    short shape_size;
+    cin >> shape_size;
+    cout << "--------------------\n";
+    for (int i = 0; i < shape_size - 1; i++)
+    {
+        for (int j = 0; j < shape_size - 1; j++)
+        {
+            if (i % 2 == 0 && j % 2 == 0 && i < shape_size - 1 && j < shape_size - 1)
+            {
+                cout << "  ";
+            }
+            else
+            {
+                cout << texture << " ";
+            }
+        }
+        cout << endl;
+    }
+    system("pause"); menu();
+}
+
 void clear() {
     system("cls");
 }
@@ -262,13 +313,17 @@ void menu() {
     cout << "[5] Круг\n";
     cout << "[6] Плюс\n";
     cout << "[7] Квадрат в квадрате\n";
+    cout << "[8] Шахматная доска\n";
+    cout << "[9] Решётка\n";
     cout << "--------------------\n";
     cout << "\n\aВыберите геометрическую фигуру: ";
     short condition; cin >> condition;
-    cout << "--------------------\n";
-    cout << "Выберите текстуру для вашей фигуры: ";
-    cin >> texture;
-
+    if (condition != 0 && condition != 8)
+    {   
+        cout << "--------------------\n";
+        cout << "Выберите текстуру для вашей фигуры: ";
+        cin >> texture;
+    }
     switch (condition) {
         case 0:
             abort();
@@ -294,10 +349,16 @@ void menu() {
         case 7:
             paint_Square_in_Square();
             break;
+        case 8:
+            paint_Chess_Board();
+            break;
+        case 9:
+            paint_Grid();
+            break;
         default:
             clear();
             menu();
-        }
+    }
 }
 
 int main(int argc, char* argv[]) {

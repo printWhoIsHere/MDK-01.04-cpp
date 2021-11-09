@@ -4,7 +4,7 @@
 #include <Windows.h>
 using namespace std;
 
-short condition, step;
+short condition, step, boardSize;
 
 
 
@@ -66,7 +66,8 @@ void settings()
 	clear();
     cout << "\n\n***  \"Настройки\"  ***\t\t\t\n\n";
 	cout << "[1] Выбрать цвет\n";
-    cout << "[2] Выбрать кем ходить\n\n";
+    cout << "[2] Выбрать кем ходить\n";
+    cout << "[3] Выбрать размер доски\n\n";
 	cout << "[0] Выход в меню\n";
     cout << "--------------------\n";
     cout << "\n\aВыберите действие: ";
@@ -81,11 +82,23 @@ void settings()
     case 2:
         clear();
         cout << "\n\n***  \"Выбор хода\"  ***\t\t\t\n\n";
-        cout << "[1] Я буду играть крестиком!\n";
-        cout << "[2] Я буду играть ноликом!\n";
+        cout << "[1] Я буду играть крестиком!\t[X]\n";
+        cout << "[2] Я буду играть ноликом!\t[O]\n";
         cout << "--------------------\n";
         cout << "\n\aВыберите действие: ";
         cin >> step;
+        settings();
+        break;
+    case 3:
+        clear();
+        cout << "\n\n***  \"Выбор размера доски\"  ***\t\t\t\n\n";
+        cout << "[1] 3х3\n";
+        cout << "[2] 4х4\n";
+        cout << "[3] 5х5\n";
+        cout << "--------------------\n";
+        cout << "\n\aВыберите действие: ";
+        cin >> boardSize;
+        settings();
         break;
 	default:
 		clear();
@@ -93,6 +106,8 @@ void settings()
 	}
 }
 
+
+ 
 void menu() {
     clear();
     cout << "\a\n\n***Приветствуем Вас в программе — \"Крестики - Нолики\"***\t\t\t\n";

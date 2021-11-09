@@ -4,14 +4,14 @@
 #include <Windows.h>
 using namespace std;
 
-short condition;
-
+short condition, step;
 
 
 
 void clear();
 void menu();
 void settings();
+
 void clear() {
     system("cls");
 }
@@ -20,7 +20,8 @@ void ConsoleColor()
 {
     string foreground, color;
 
-    cout << "\n\n--------------------\n    Цвет \n--------------------\n";
+    clear();
+    cout << "\n\n***  \"Цвет\"  ***\t\t\t\n\n";
     cout << "[0] - Чёрный\n";
     cout << "[1] - Синий\n";
     cout << "[2] - Зелёный\n";
@@ -38,7 +39,7 @@ void ConsoleColor()
     cout << "[E] - Светло-жёлтый\n";
     cout << "[F] - Ярко-белый\n\n";
     cout << "--------------------\n";
-    cout << "Выберите цвет : ";
+    cout << "\n\aВыберите цвет: ";
     cin >> foreground;
 
     color = "color " + 0 + foreground;
@@ -50,7 +51,8 @@ void ConsoleColor()
 
 void rules()
 {
-	clear();
+    clear();
+    cout << "\n\n***  \"Правила\"  ***\t\t\t\n\n";
 	cout << "\a\n\nИгроки по очереди ставят на свободные клетки поля 3х3 знаки\n"
 		<< "(один всегда крестики, другой всегда нолики).\n"
 		<< "Первый, выстроивший в ряд 3 своих фигур по вертикали, горизонтали или диагонали, выигрывает.\n\n\n";
@@ -64,9 +66,10 @@ void settings()
 	clear();
     cout << "\n\n***  \"Настройки\"  ***\t\t\t\n\n";
 	cout << "[1] Выбрать цвет\n";
-	cout << "[0] Вернуться обратно в меню\n";
+    cout << "[2] Выбрать кем ходить\n\n";
+	cout << "[0] Выход в меню\n";
     cout << "--------------------\n";
-	cout << "\n\aВаш выбор: ";
+    cout << "\n\aВыберите действие: ";
     cin >> condition;
     switch (condition) {
     case 0:
@@ -74,6 +77,15 @@ void settings()
         break;
     case 1:
         ConsoleColor();
+        break;
+    case 2:
+        clear();
+        cout << "\n\n***  \"Выбор хода\"  ***\t\t\t\n\n";
+        cout << "[1] Я буду играть крестиком!\n";
+        cout << "[2] Я буду играть ноликом!\n";
+        cout << "--------------------\n";
+        cout << "\n\aВыберите действие: ";
+        cin >> step;
         break;
 	default:
 		clear();
@@ -88,7 +100,7 @@ void menu() {
     cout << "[1] Играть\n";
     cout << "[2] Настройки\n";
     cout << "[3] Правила\n\n";
-    cout << "[0] Выход\n\n";
+    cout << "[0] Выход\n";
     cout << "--------------------\n";
     cout << "\n\aВыберите действие: ";
     cin >> condition;

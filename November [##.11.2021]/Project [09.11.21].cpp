@@ -4,12 +4,14 @@
 using namespace std;
 
 short condition, step, boardSize, gameSelection;
-char h[9] = { '-', '-', '-', '-', '-', '-', '-', '-', '-' };
-
+const short SIZE = 3;
+short playingField[SIZE][SIZE] = { {1,2,3},{4,5,6},{7,8,9} };
 
 void clear();
 void menu();
 void settings();
+void board();
+int game();
 
 void clear() {
     system("cls");
@@ -106,38 +108,48 @@ void settings()
 }
 
 
-// Код игры [вдвоём] -----------------------------------------
+// Код игры  -----------------------------------------
+
+
+void playing()
+{
+
+
+}
+
+
+
 void boardNumbering()
 {
     cout << "\n\n";
-    cout << "\tExample of\t-----------" << endl;
-    cout << "\tnumbering:\t 7 | 8 | 9 " << endl;
-    cout << "\t\t\t 4 | 5 | 6 " << endl;
-    cout << "\t\t\t 1 | 2 | 3 " << endl;
-    cout << "\t\t\t-----------" << endl;
+    cout << "\t\t***  \"Игра\"  ***\t\t\t\n\n";
+    cout << "\tExample of\t|-----------|" << endl;
+    cout << "\tnumbering:\t| 1 | 2 | 3 |" << endl;
+    cout << "\t\t\t| 4 | 5 | 6 |" << endl;
+    cout << "\t\t\t| 7 | 8 | 9 |" << endl;
+    cout << "\t\t\t|-----------|" << endl;
 }
+
 void board()
 {
     cout << "\n";
-    cout << "\tGame:\t\t-----------" << endl;
-    cout << "\t\t\t " << h[6] << " | " << h[7] << " | " << h[8] << " " << endl;
-    cout << "\t\t\t " << h[3] << " | " << h[4] << " | " << h[5] << " " << endl;
-    cout << "\t\t\t " << h[0] << " | " << h[1] << " | " << h[2] << " " << endl;
-    cout << "\t\t\t-----------" << endl;
-}
-int getMove()
-{
-    int move;
-    cout << "\n\nВаш ход: ";
-    cin >> move;
-    while (move > 9 || move < 1 || h[move - 1] != '-')
-    {
-        cout << "ERROR\n"
-            << "[Такого числа не найдено!]" << endl;
-        cin >> move;
+    cout << "\tGame:\t\t|-----------|\n\t\t\t| ";
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (playingField[i][j] > 0)
+                cout << playingField[i][j] << " | ";
+            else
+                if (playingField[i][j] == -1)
+                    cout << "|X|";
+                else
+                    cout << "|O|";
+
+        }
+        cout << "\n\t\t\t| ";
     }
-    return move;
+    cout << "----------|" << endl;
 }
+
 int game()
 {
     clear();
@@ -149,30 +161,24 @@ int game()
     cout << "\n\aВыберите действие: ";
     cin >> gameSelection;
     
-    if (gameSelection == 0)
+    switch (gameSelection)
     {
+    case 0:
         clear();
         menu();
+    case 1:
+        clear();
+    case 2:
+        clear();
+        boardNumbering;
+        board();
+        playing();
+    default:
+        clear();
+        game();
+        break;
     }
-    else if (gameSelection == 1)
-    {
-        boardNumbering();
-        for (int i = 0; i < 9; i++)
-        {
-            clear();
-            boardNumbering();
-            board();
-            int move = getMove();
-            cout << "Ход: " << move << endl;
-            if (i % 2 == 0)
-            {
-                h[move - 1] = 'X';
-            }
-            else h[move - 1] = 'O';
-        }
-        return 0;}
-    else { clear(); menu(); };
-
+    return 0;
 }
 // Код игры -----------------------------------------
 
@@ -208,8 +214,9 @@ void menu() {
 }
 
 int main(int argc, char* argv[]) {
-        setlocale(0, "");
-        menu();
-        system("pause");
-        return 0;
+    srand(time(NULL));
+    setlocale(0, "");
+    menu();
+    system("pause");
+    return 0;
 }

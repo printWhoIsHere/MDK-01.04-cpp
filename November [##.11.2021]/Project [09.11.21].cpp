@@ -242,6 +242,7 @@ void plaing() {
     plaing();
 }
 
+// ----- Вывод игры -----
 void printGame() {
     clear();
     cout << "\a\n\n***  \"Игра\"  ***\t\t\t\n";
@@ -279,6 +280,11 @@ void printGame() {
 // ----- *КОД ИГРЫ
 
 void playerColor() {
+    //for(int i = 0; i < 255; i++){
+    //    cout<<"\x1b["<<i<<"mTEST -"<<i<<"\n";
+    //}
+    // 31-Red; 32-Green, 33-Yellow, 34-Blue, 35-Purple; 36-Cyan [or 91-96 - more vivid]
+
     clear();
     short condition;
     cout << "\n\n***  \"Настройка цвета\"  ***\t\t\t\n";
@@ -401,11 +407,6 @@ void settings() {
 }
 
 void menu() {
-    //for(int i = 0; i < 255; i++){
-    //    cout<<"\x1b["<<i<<"mTEST -"<<i<<"\n";
-    //}
-    // 31-Red; 32-Green, 33-Yellow, 34-Blue, 35-Purple; 36-Cyan [or 91-96]
-
     clear();
     cout << "\a\n\n***Приветствуем Вас в программе — \"Крестики - Нолики\"***\t\t\t\n";
     cout << "\x1b[31m————————————————————————————————————————————————————————\x1b[0m";

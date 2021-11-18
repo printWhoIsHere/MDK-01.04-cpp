@@ -1,0 +1,403 @@
+#include <iostream>
+#include <string>
+#include <Windows.h>
+
+int numberOfQuestions = 15;
+int amountOfAttempts = 3;
+bool helpOfAFriend = true;
+
+using namespace std;
+
+struct Question {
+    string question;
+    string wrongAnswers[3];
+    string rightAnswer;
+};
+
+Question questions[20] = {
+    // 1 - вопрос, {2, 3, 4} - неправильные ответы, 4 - правильный ответ [этот комментарий не забудь удалить потом)))]
+    {"Укажите количество анемокулов на карте", {"63", "64", "Я в вашу аниме помойку не играю"}, "65"},
+    {"Укажите количество геокулов на карте", {"129", "130", "Опять вопрос по инфаркту, дебил на авторе"}, "131"},
+    {"Укажите количество электрокулов на карте", {"179", "180", "Да ты задолбал..."}, "181"},
+    {"Укажите количество дендрокулов на карте", {"114", "115", "Оставим это без лишних комментариев"}, "Неизвестно"},
+    {"Назовите стоимость ультимейта Райден", {"60", "70", "80"}, "90"},
+    {"Укажите вариант, в котором есть хотя бы одна несуществующая стоимость ультимейта", {"70, 80, 90", "40, 60, 70", "Все стоимости существуют"}, "45, 60, 70"},
+    {"Сколько всего острвов на Инадзуме?", {"4", "5", "7"}, "6"},
+    {"Назовите имя Гео Архонта", {"Чжун Ли", "Гео мужык", "Рекс Лапис"}, "Моракс"},
+    {"Назовите имя Электро Архонта", {"Баал", "Райден", "Яэ"}, "Эи"},
+    {"Сколько всего персонажей из Инадзумы?", {"6", "7", "9"}, "8"},
+    {"Укажите вариант, в котором нет собак", {"Рэйзор, Горо", "Тими, Борей", "Могила Щенка, Волчья Погибель"}, "Кэ Цин, Дилюк"},
+    {"Укажите самую высокую точку на карте", {"Нефритовый дворец", "Тэнсюкаку", "Логово Ужаса Бури"}, "Драконий Хребет"},
+    {"Укажите реакцию, не наносящую урон", {"Крио + Электро", "Анемо + Пиро", "Гидро + Пиро"}, "Гео + Крио"},
+    {"Укажите персонажа, который на данный момент владеет гнозисами", {"Ля Синьора", "Тарталья", "Райден"}, "Скарамучча"},
+    {"Укажите число круток, необходимое для так называемого \"софт-гаранта\" в баннере персонажей", {"60", "80", "90"}, "70"},
+    {"Назовите назначение \"Улова\"", {"Кирка", "Удочка", "Наживка"}, "Оружие для клейморщика"},
+    {"Укажите число круток, необходимое для так называемого \"хард-гаранта\" в баннере персонажей", {"60", "80", "70"}, "90"},
+    {"Укажите число круток, необходимое для так называемого \"софт-гаранта\" в баннере оружия", {"60", "70", "75"}, "65"},
+    {"Укажите максимальный уровень Чайника Безмятежности", {"5", "15", "25"}, "10"},
+    {"Укажите время, проходящее между 2 смежными патчами", {"39 дней", "5 недель", "41 день"}, "40 дней"}
+};
+
+int previousQuestions[20];
+
+void error() {
+    system("cls");
+    cout << "Такой опции в меню нет\n";
+    Sleep(2000);
+}
+
+void wrongAnswer() {
+    system("cls");
+    if (amountOfAttempts == 0) {
+        return;
+    }
+    cout << "Неверный ответ || Осталось попыток: " << to_string(amountOfAttempts) << "\n";
+    Sleep(2000);
+}
+
+void endGame(string mode) {
+    system("cls");
+
+    if (mode == "win") {
+        cout << "Вы правильно ответили на все вопросы викторины. Хорошая работа, Олег";
+    }
+    else if (mode == "lose") {
+        cout << "К сожалению, у вас закончились попытки. Возвращайтесь вдвое сильнее";
+    }
+}
+
+void success(string option, string status) {
+    system("cls");
+    cout << "Успешное изменение настройки\n";
+    cout << option + " теперь " + status << "\n";
+    Sleep(2000);
+}
+
+void fifityFifty(int currentQuestion) {
+    string totalAnswers[4] = { questions[currentQuestion].wrongAnswers[0],
+                            questions[currentQuestion].wrongAnswers[1],
+                            questions[currentQuestion].wrongAnswers[2],
+                            questions[currentQuestion].rightAnswer };
+
+    int wrong1 = -1, wrong2 = -1;
+
+    for (int i = 0; i < 2; i++) {
+        int randDestroy = rand() % 4;
+        while (totalAnswers[randDestroy] == questions[currentQuestion].rightAnswer || randDestroy == wrong1) {
+            randDestroy = rand() % 4;
+        }
+        if (i == 0) {
+            wrong1 = randDestroy;
+        }
+        else {
+            wrong2 = randDestroy;
+        }
+    }
+
+    helpOfAFriend = false;
+
+    cout << "Неправильные ответы: \"" + questions[currentQuestion].wrongAnswers[wrong1] + "\" и \"" + questions[currentQuestion].wrongAnswers[wrong2] + "\"\n";
+}
+
+void addAUsedQuestion(int questionIndex) {
+    for (int i = 0; i < 20; i++) {
+        if (previousQuestions[i] == NULL) {
+            previousQuestions[i] = questionIndex;
+            return;
+        }
+    }
+}
+
+int randomizeQuestion() {
+    int questionIndex = rand() % 20;
+
+    for (int i = 0; i < 20; i++) {
+        if (previousQuestions[i] == questionIndex) {
+            questionIndex = rand() % 20;
+            i = 0;
+        }
+    }
+
+    addAUsedQuestion(questionIndex);
+
+    return questionIndex;
+}
+
+bool checkAnswer(int answer, int answers[4]) {
+    for (int i = 0; i < 4; i++) {
+        if (answer == answers[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+char displayQuestionAndGetTheRightAnswer(int currentQuestionNumber, int currentQuestion) {
+    system("cls");
+
+    int randomizedAnswer, randomizedAnswers[4];
+    string totalAnswers[4] = { questions[currentQuestion].wrongAnswers[0],
+                            questions[currentQuestion].wrongAnswers[1],
+                            questions[currentQuestion].wrongAnswers[2],
+                            questions[currentQuestion].rightAnswer };
+    char rightAnswer;
+
+    cout << "Вопрос " + to_string(currentQuestionNumber) + " / " + to_string(numberOfQuestions) << "\n";
+    cout << "Попыток осталось: " + to_string(amountOfAttempts) << "\n";
+    if (helpOfAFriend) {
+        cout << "Помощь друга (50:50) доступна\n";
+    }
+    cout << questions[currentQuestion].question << "\n";
+    for (int i = 0; i < 4; i++) {
+        switch (i)
+        {
+        case 0:
+            randomizedAnswer = rand() % 4;
+            cout << "a. " + totalAnswers[randomizedAnswer] << "\n";
+            if (totalAnswers[randomizedAnswer] == questions[currentQuestion].rightAnswer) {
+                rightAnswer = 'a';
+            }
+            randomizedAnswers[0] = randomizedAnswer;
+            break;
+        case 1:
+            randomizedAnswer = rand() % 4;
+            while (!checkAnswer(randomizedAnswer, randomizedAnswers)) {
+                randomizedAnswer = rand() % 4;
+            }
+            cout << "b. " + totalAnswers[randomizedAnswer] << "\n";
+            if (totalAnswers[randomizedAnswer] == questions[currentQuestion].rightAnswer) {
+                rightAnswer = 'b';
+            }
+            randomizedAnswers[1] = randomizedAnswer;
+            break;
+        case 2:
+            randomizedAnswer = rand() % 4;
+            while (!checkAnswer(randomizedAnswer, randomizedAnswers)) {
+                randomizedAnswer = rand() % 4;
+            }
+            cout << "c. " + totalAnswers[randomizedAnswer] << "\n";
+            if (totalAnswers[randomizedAnswer] == questions[currentQuestion].rightAnswer) {
+                rightAnswer = 'c';
+            }
+            randomizedAnswers[2] = randomizedAnswer;
+            break;
+        case 3:
+            randomizedAnswer = rand() % 4;
+            while (!checkAnswer(randomizedAnswer, randomizedAnswers)) {
+                randomizedAnswer = rand() % 4;
+            }
+            cout << "d. " + totalAnswers[randomizedAnswer] << "\n";
+            if (totalAnswers[randomizedAnswer] == questions[currentQuestion].rightAnswer) {
+                rightAnswer = 'd';
+            }
+            randomizedAnswers[3] = randomizedAnswer;
+            break;
+        }
+    }
+
+    return rightAnswer;
+}
+
+void play() {
+    system("cls");
+
+    int currentQuestionNumber = 1;
+    char answer, rightAnswer;
+
+    while (amountOfAttempts > 0 && currentQuestionNumber < numberOfQuestions) {
+        int currentQuestion = randomizeQuestion();
+        rightAnswer = displayQuestionAndGetTheRightAnswer(currentQuestionNumber, currentQuestion);
+        cin >> answer;
+        if (answer == rightAnswer) {
+            currentQuestionNumber++;
+        }
+        else if (answer == 'h' && helpOfAFriend) {
+            fifityFifty(currentQuestion);
+
+            cin >> answer;
+            if (answer == rightAnswer) {
+                currentQuestionNumber++;
+            }
+            else {
+                amountOfAttempts--;
+                wrongAnswer();
+            }
+        }
+        else {
+            amountOfAttempts--;
+            wrongAnswer();
+        }
+    }
+
+    if (amountOfAttempts <= 0) {
+        endGame("lose");
+    }
+    else {
+        endGame("win");
+    }
+
+    exit(2);
+}
+
+void settings() {
+    system("cls");
+
+    int option, sideOption;
+
+    cout << "Настройки\n";
+    cout << "1. Количество вопросов\n";
+    cout << "2. Количество попыток\n";
+    cout << "3. Помощь друга\n";
+    cout << "4. По-умолчанию\n\n";
+    cout << "0. Назад\n";
+    cin >> option;
+    switch (option)
+    {
+    case 1:
+        system("cls");
+        cout << "Количество вопросов\n\n";
+        cout << "5 вопросов\n";
+        cout << "10 вопросов\n";
+        cout << "15 вопросов\n\n";
+        cout << "0. Назад\n";
+        cin >> sideOption;
+        switch (sideOption)
+        {
+        case 5:
+        case 10:
+        case 15:
+            numberOfQuestions = sideOption;
+            success("Количество вопросов", to_string(numberOfQuestions));
+            settings();
+            break;
+        default:
+            error();
+            settings();
+            break;
+        }
+        break;
+    case 2:
+        system("cls");
+        cout << "Количество попыток\n\n";
+        cout << "Выберите количество попыток от 1 до 5\n\n";
+        cout << "0. Назад\n";
+        cin >> amountOfAttempts;
+        while (amountOfAttempts <= 0 || amountOfAttempts > 5) {
+            system("cls");
+            cout << "Попыток может быть от 1 до 5. Повторите ввод -> ";
+            cin >> amountOfAttempts;
+        }
+        success("Количество попыток", to_string(amountOfAttempts));
+        settings();
+        break;
+    case 3:
+        system("cls");
+        cout << "Помощь друга (50:50)\n\n";
+        cout << "1. Включить\n";
+        cout << "2. Выключить\n\n";
+        cout << "0. Назад\n";
+        cin >> sideOption;
+        switch (sideOption)
+        {
+        case 1:
+            helpOfAFriend = true;
+            success("Помощь друга (50:50)", "включена");
+            settings();
+            break;
+        case 2:
+            helpOfAFriend = false;
+            success("Помощь друга (50:50)", "выключена");
+            settings();
+            break;
+        case 0:
+            break;
+        default:
+            error();
+            settings();
+            break;
+        }
+        break;
+    case 4:
+        numberOfQuestions = 15;
+        amountOfAttempts = 3;
+        helpOfAFriend = true;
+        success("Настройки по-умолчанию", "включены");
+        break;
+    case 0:
+        break;
+    default:
+        error();
+        settings();
+        break;
+    }
+}
+
+void rules() {
+    system("cls");
+
+    int exitNum;
+    cout << "Правила\n\n";
+    cout << "Вам предлагается случайный вопрос, на каждый из которых есть 4 варианта ответа. При правильном ответе вы продвигаетесь дальше по викторине,\n";
+    cout << "в случае же ошибки вы теряете одну попытку. Если вы лишитесь их всех, игра будет окончена.\n\n";
+    cout << "У игрока также есть возможность использовать знаменитую помощь друга, aka 50:50, при использовании которой из общего числа ответов случайным образом убираются 2 неправильных.\n";
+    cout << "На всю игровую сессию дается ровно 1 возможность использовать помощь друга.\n\n";
+    cout << "Игрок одерживает победу, если он правильно ответит на все вопросы викторины до момента, когда у игрока не останется попыток\n\n";
+    cout << "0. Назад\n";
+    cin >> exitNum;
+    if (exitNum == 0) {
+        return;
+    }
+    else {
+        system("cls");
+        error();
+        rules();
+    }
+}
+
+void stop() {
+    exit(1);
+}
+
+void mainMenu() {
+    system("cls");
+    int menuOption;
+
+    cout << "Викторина\n";
+    cout << "Главное меню\n\n";
+    cout << "1. Начать игру\n";
+    cout << "2. Настройки\n";
+    cout << "3. Правила\n";
+    cout << "4. Выйти\n";
+    cin >> menuOption;
+    switch (menuOption)
+    {
+    case 1:
+        play();
+        break;
+    case 2:
+        settings();
+        break;
+    case 3:
+        rules();
+        break;
+    case 4:
+        stop();
+        break;
+    default:
+        error();
+        break;
+    }
+}
+
+int main() {
+    setlocale(0, "");
+
+    system("color 02");
+
+    while (true) {
+        mainMenu();
+    }
+
+    return 0;
+}

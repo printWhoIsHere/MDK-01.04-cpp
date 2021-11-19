@@ -1,28 +1,23 @@
-#define _CRT_SECURE_NO_WARNINGS 1
+//#define _CRT_SECURE_NO_WARNINGS 1
 #include <iostream>
 #include <windows.h>
 #include <sstream>
 #include <cmath>
 #include <string>
 
-#include <ctime>
-#include <ratio>
-#include <chrono>
+//#include <ctime>
+//#include <ratio>
+//#include <chrono>
+//Таймер только на вопрос (~1 мин на вопрос)
 
+//#include <thread> // Библиотека многопоточности - https://nuancesprog.ru/p/5452/ 
 
 using namespace std;
 
-int countOfQuestions = 15;
-int amountOfAttempts = 3;
+int numberOfQuestions = 15;
+int countOfAttempts = 3;
 
-const short HIGHT = 15;
 
-string playingField[HIGHT][3] = {
-    {"Вопрос 1. \n [1] - Ответ 1\n [2] - Ответ 2\n [3] - Ответ 3\n [4] - Ответ 4","1","0",},
-    {"Вопрос 2. \n [1] - Ответ 1\n [2] - Ответ 2\n [3] - Ответ 3\n [4] - Ответ 4","1","0",},
-    {"Вопрос 3. \n [1] - Ответ 1\n [2] - Ответ 2\n [3] - Ответ 3\n [4] - Ответ 4","1","0",},
-    {"Вопрос 4. \n [1] - Ответ 1\n [2] - Ответ 2\n [3] - Ответ 3\n [4] - Ответ 4","1","0",}
-};
 
 void menu();
 void settings();
@@ -36,33 +31,66 @@ void clear() {
 
 
 // ----- Меню Викторины -----
-void quizMenu()
-{
-    //cout << "Время: " << asctime(localtime(&sec));
-    cout << "\n\n***  \"Викторина\"  ***\t\t\t\n";
-    cout << "\x1b[31m--------------------\x1b[0m\n\n";
+struct Question {
+    string question;
+    string wrongAnswers[3];
+    string rightAnswer;
+};
 
-    //Вывод вопроса
-    for (int i = 0; i < HIGHT; i++) {
-        cout << "Вопрос [" << i + 1 << "]";
-            cout << "\t" << playingField[i][0];
-        cout << "\n";
-    }
+Question questions[20] = {
+    // {"Вопрос", { 1-ответ, 2-ответ, 3-ответ, 4-ответ }, правильный ответ}
 
-    cout << "\n\n[0] Выход";
-    cout << "\n\x1b[31m--------------------\x1b[0m\n";
-    cout << "\nВыберите действие: ";
-    short condition; cin >> condition;
-    switch (condition - 1) {
-    case -1:
-        menu();
-        break;
-    default:
-        clear();
-        break;
-    }
+};
+
+void wrongAnswer() {
+    clear();
+
+    /* вычет 1 попытки */
+
+    cout << "Неверный ответ || Осталось попыток: " << /* Вычет 1 попытки */ "\n";
+    Sleep(2000);
 }
 
+
+
+// 50:50
+void fifityFifty() {
+    
+}
+
+// Добавление ответа на вопрос
+void addAUsedQuestion() {
+
+}
+
+//Рандомизация вопроса
+int randomizeQuestion() {
+
+}
+
+//Проверка ответа
+bool checkAnswer() {
+
+}
+
+//Меню игры
+char quizMenu() {
+    clear();
+
+   
+
+    //cout << "\n Вопрос " + to_string() + " / " + to_string();
+    //cout << "\n Попыток осталось: " + to_string() << "\n";
+    //cout << /* Вопрос */ << "\n";
+    cout << "\x1b[31m--------------------\x1b[0m\n";
+
+}
+
+// Логика игры
+void play() {
+    clear();
+
+}
 
 // *КОД ВИКТОРИНЫ
 
@@ -70,7 +98,7 @@ void rules() {
     clear();
     cout << "\n\n***  \"Правила\"  ***\t\t\t\n";
     cout << "\x1b[31m--------------------\x1b[0m\n";
-    cout << "\n Приятной игры; \n";
+    cout << " Правила просты. \n Приятной игры; \n";
     cout << "\x1b[31m--------------------\x1b[0m\n\n";
     system("pause");
     clear();
@@ -81,9 +109,8 @@ void settings() {
     clear();
     cout << "\n\n***  \"Настройки\"  ***\t\t\t\n";
     cout << "\x1b[31m--------------------\x1b[0m";
-    cout << "\n[1] Выбрать ";
-    cout << "\n[2] Выбрать ";
-    cout << "\n[3] Выбрать ";
+    cout << "\n[1] Выбрать кол-во вопросов";
+    cout << "\n[2] Выбрать кол-во попыток";
     cout << "\n\n[0] Выход";
     cout << "\n\x1b[31m--------------------\x1b[0m\n";
     cout << "\nВыберите действие: ";
@@ -92,8 +119,54 @@ void settings() {
     case 0:
         menu();
         break;
+    case 1:
+        clear();
+        cout << "\n\n***  \"Кол-во вопросов\"  ***\t\t\t\n";
+        cout << "\x1b[31m--------------------\x1b[0m\n";
+        cout << "[1] 5 вопросов\n";
+        cout << "[2] 10 вопросов\n";
+        cout << "[3] 15 вопросов\n\n";
+        cout << "[0] Вернуться назад\n";
+        cout << "\n\x1b[31m--------------------\x1b[0m\n";
+        cin >> condition;
+        switch (condition)
+        {
+        case 1:
+            /* Изменение переменной вопросов на 5 */
+            settings();
+            break;
+        case 2:
+            /* Изменение переменной вопросов на 10 */
+            settings();
+            break;
+        case 3:
+            /* Изменение переменной вопросов на 15 */
+            settings();
+            break;
+        default:
+            clear();
+            cout << "404 Not Found";
+            settings();
+            break;
+        }
+        break;
+    case 2:
+        clear();
+        cout << "\n\n***  \"Кол-во попыток\"  ***\t\t\t\n";
+        cout << "\x1b[31m--------------------\x1b[0m\n";
+        cout << "Выберите количество попыток от 1 до 5: ";
+        cin >> countOfAttempts;
+        while (countOfAttempts <= 1 || countOfAttempts >= 5) {
+            clear();
+            cout << "Попыток лишь от 1 до 5. Повторите ввод -> ";
+            cin >> countOfAttempts;
+        }
+        /* Изменение переменной попыток на 10 вопросов */
+        settings();
+        break;
     default:
         clear();
+        cout << "404 Not Found";
         break;
     }
     menu();
@@ -115,7 +188,7 @@ void menu() {
         break;
     case 1:
         clear();
-        quizMenu();
+        play();
         break;
     case 2:
         settings();
@@ -129,30 +202,32 @@ void menu() {
     }
 }
 
-bool plaingGame(time_t time_rel) {
 
-    time_t now = time(0);
-    // convert now to string form
-    char* startTime = ctime(&now);
-    cout << "The local date and time is: " << startTime << endl;
-    size_t Minutes = 1;
-    time_t newTime = now + (60* Minutes);
-    char* StopTimer = ctime(&newTime);
-    cout << "NewTime: " << StopTimer << endl;
-    do
-    {
-    
-        //Тут будет код
-
-
-    now = time(0);
-    } while (newTime > now);
-    cout << "stop";
-    return true;
-}
+// ----- Таймер -----
+//bool plaingGame(time_t time_rel) {
+//
+//    time_t now = time(0);
+//    // convert now to string form
+//    char* startTime = ctime(&now);
+//    cout << "The local date and time is: " << startTime << endl;
+//    size_t Minutes = 1;
+//    time_t newTime = now + (60 * Minutes);
+//    char* StopTimer = ctime(&newTime);
+//    cout << "NewTime: " << StopTimer << endl;
+//    do
+//    {
+//
+//        //Тут будет код
+//
+//
+//        now = time(0);
+//    } while (newTime > now);
+//    cout << "stop";
+//    return true;
+//}
 
 int main(int argc, char* argv[]) {
-    
+
     //plaingGame();
     setlocale(0, "");
     menu();

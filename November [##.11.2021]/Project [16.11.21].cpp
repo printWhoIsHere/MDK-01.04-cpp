@@ -1,95 +1,67 @@
-//#define _CRT_SECURE_NO_WARNINGS 1
+#define _CRT_SECURE_NO_WARNINGS 1
 #include <iostream>
 #include <windows.h>
 #include <sstream>
-#include <cmath>
+//#include <cmath>
 #include <string>
-
-//#include <ctime>
+#include <ctime>
 //#include <ratio>
 //#include <chrono>
 //Таймер только на вопрос (~1 мин на вопрос)
-
-//#include <thread> // Библиотека многопоточности - https://nuancesprog.ru/p/5452/ 
-
 using namespace std;
 
+size_t Minutes = 1; //сколько минут отведем на игру
 int numberOfQuestions = 15;
 int countOfAttempts = 3;
 
-
-
 void menu();
 void settings();
+bool playingGame();
+
+bool playingGame(time_t i);
+
+string Answer[15][2] = {
+        {"Сколько спутников у Марса?\n [1] - 1\n [2] - 2\n [3] - 3\n [4] - 4","2"},
+        {"Сколько часовых поясов в России?\n [1] - 11\n [2] - 12\n [3] - 13\n [4] - 14","1"},
+        {"Самый большой вулкан Солнечной системы называется «Гора Олимп». Где он находится?\n [1] - Юпитер\n [2] - Земля\n [3] - Венера\n [4] - Марс","4"},
+        {"Какая планета ближе всех расположена к Солнцу?\n [1] - Меркурий\n [2] - Земля\n [3] - Юпитер\n [4] - Венера","1"},\
+        {"Большое красное пятно на Юпитере, что это?\n [1] - Буря\n [2] - Озеро\n [3] - Вулкан\n [4] - Кратор","1"},
+        {"Из чего в основном состоит Солнце?\n [1] - Расплавленный метал\n [2] - Плазма\n [3] - Жидкий газ\n [4] - Из счастья","2"},
+        {"Из чего в основном состоят кометы?\n [1] - Ядовитые жидкости\n [2] - Лед и пыль\n [3] - Ржавый метал\n [4] - Камень","2"},
+        {"К какой планете принадлежат спутники Оберон и Титания?\n [1] - Юпитер\n [2] - Уран\n [3] - Венера\n [4] - Земля","2"},
+        {"Какой из вариантов лучше всего описывает атмосферу, окружающую Венеру?\n [1] - Яркое и солнечное\n [2] - Холодное и снижное\n [3] - Холодная и влажная\n [4] - Ядовитая","4"},
+        {"Где находится пояс астероидов?\n [1] - Между Юпитером и Сатурном\n [2] - Между Землей и Венерой\n [3] - Между Марсом и Юпитером\n [4] - Между Землей и Марсом","3"},
+        {"Какая из этих планет самая маленькая?\n [1] - Юпитер\n [2] - Уран\n [3] - Земля\n [4] - Меркурий","4"},
+        {"Какие две планеты вращаются в обратном направлении от остальных?\n [1] - Уран и Венера\n [2] - Венера и Плутон\n [3] - Меркурий и Юпитер\n [4] - Земля и Нептун","1"},
+        {"Назовите самую длинную реку в мире?\n [1] - Нил\n [2] - Амазонка\n [3] - Волга\n [4] - Миссисипи","1"},
+        {"Какая страна самая новая в мире, признанная в ООН?\n [1] - Алжир\n [2] - Арабские Эмираты\n [3] - Уагвей\n [4] - Южный Судан","4"},
+        {"Какая валюта Швеции?\n [1] - Шведэн\n [2] - Шведская крона\n [3] - Доллар\n [4] - Шведский франк","2"}
+};
+
 
 void clear() {
     system("cls");
 }
 
-
-// КОД ВИКТОРИНЫ
-
-
-// ----- Меню Викторины -----
-struct Question {
-    string question;
-    string wrongAnswers[3];
-    string rightAnswer;
-};
-
-Question questions[20] = {
-    // {"Вопрос", { 1-ответ, 2-ответ, 3-ответ, 4-ответ }, правильный ответ}
-
-};
-
-void wrongAnswer() {
-    clear();
-
-    /* вычет 1 попытки */
-
-    cout << "Неверный ответ || Осталось попыток: " << /* Вычет 1 попытки */ "\n";
-    Sleep(2000);
-}
-
-
-
 // 50:50
-void fifityFifty() {
-    
-}
-
-// Добавление ответа на вопрос
-void addAUsedQuestion() {
-
+void help_draw(int indexAnswer) {
+    short indexFakeOtvet = 1 + rand() % 4;
+    const char* relAnswerString = Answer[indexAnswer][1].c_str();
+    int relAnswerInt = atoi(relAnswerString);
+    while (indexFakeOtvet == relAnswerInt) {
+        indexFakeOtvet = 1 + rand() % 4;
+    }
+    cout << "\n Ответ: " << Answer[indexAnswer][1] << " или " << indexFakeOtvet << "\n";
 }
 
 //Рандомизация вопроса
-int randomizeQuestion() {
-
-}
-
-//Проверка ответа
-bool checkAnswer() {
-
-}
-
-//Меню игры
-char quizMenu() {
-    clear();
-
-   
-
-    //cout << "\n Вопрос " + to_string() + " / " + to_string();
-    //cout << "\n Попыток осталось: " + to_string() << "\n";
-    //cout << /* Вопрос */ << "\n";
-    cout << "\x1b[31m--------------------\x1b[0m\n";
-
-}
-
-// Логика игры
-void play() {
-    clear();
-
+void randomizeQuestion() {
+    srand(time(NULL));
+    for (int i = 0; i < sizeof(Answer) / sizeof(Answer[0]); i++) {
+        short randAnswer = rand() % (sizeof(Answer) / sizeof(Answer[0]));
+        swap(Answer[i][0], Answer[randAnswer][0]);
+        swap(Answer[i][1], Answer[randAnswer][1]);
+    }
 }
 
 // *КОД ВИКТОРИНЫ
@@ -111,6 +83,7 @@ void settings() {
     cout << "\x1b[31m--------------------\x1b[0m";
     cout << "\n[1] Выбрать кол-во вопросов";
     cout << "\n[2] Выбрать кол-во попыток";
+    cout << "\n[3] Выбрать время игры";
     cout << "\n\n[0] Выход";
     cout << "\n\x1b[31m--------------------\x1b[0m\n";
     cout << "\nВыберите действие: ";
@@ -118,6 +91,10 @@ void settings() {
     switch (condition) {
     case 0:
         menu();
+        break;
+    case 3:
+        cout << "\nВведите, количество минут которые будет длится игра:";
+        cin >> Minutes;
         break;
     case 1:
         clear();
@@ -133,14 +110,17 @@ void settings() {
         {
         case 1:
             /* Изменение переменной вопросов на 5 */
+            numberOfQuestions = 5;
             settings();
             break;
         case 2:
             /* Изменение переменной вопросов на 10 */
+            numberOfQuestions = 10;
             settings();
             break;
         case 3:
             /* Изменение переменной вопросов на 15 */
+            numberOfQuestions = 15;
             settings();
             break;
         default:
@@ -155,13 +135,15 @@ void settings() {
         cout << "\n\n***  \"Кол-во попыток\"  ***\t\t\t\n";
         cout << "\x1b[31m--------------------\x1b[0m\n";
         cout << "Выберите количество попыток от 1 до 5: ";
-        cin >> countOfAttempts;
-        while (countOfAttempts <= 1 || countOfAttempts >= 5) {
-            clear();
+        short condition;
+        cin >> condition;
+        if (condition < 1 || condition > 5) {
             cout << "Попыток лишь от 1 до 5. Повторите ввод -> ";
             cin >> countOfAttempts;
         }
-        /* Изменение переменной попыток на 10 вопросов */
+        else {
+            countOfAttempts = condition;
+        }
         settings();
         break;
     default:
@@ -170,6 +152,64 @@ void settings() {
         break;
     }
     menu();
+}
+void play() {
+    clear();
+    int sum = 0;
+    time_t now = time(0);
+    short fifityFifty = 0;
+    time_t stopPlayTime = now + (60 * Minutes);  //Когда закончить игру
+    for (int i = 0; i < numberOfQuestions and countOfAttempts>0 and playingGame(stopPlayTime); i++) {
+        Sleep(600);
+        clear();
+        cout << "\n\x1b[36mУ вас осталось: " << countOfAttempts << " жизней\x1b[0m\n";
+    goAnswer:
+        string condition;
+        if (fifityFifty == 1) {
+            help_draw(i);
+            fifityFifty = 3;
+        }
+        else if (fifityFifty == 0)
+        cout << "\x1b[36mЧто бы использовать подсказку напишите: \"50/50\"\x1b[0m\n";
+        cout << "\n\x1b[31m--------------------\x1b[0m\n";
+        cout << Answer[i][0] << "\n\x1b[31m--------------------\x1b[0m\nВведите ответ на вопрос: ";
+        cin >> condition;
+        if (condition == Answer[i][1]) {
+            sum++;
+            cout << "\n\x1b[92mВы ответили правильно!\x1b[0m";
+        }
+        else if (condition == "50/50" and fifityFifty != 3) {
+            fifityFifty = 1;
+            goto goAnswer;
+        }
+        else if (condition != "1" and condition != "2" and condition != "3" and condition != "4") {
+            cout << "\x1b[91mИграй по правилам, ответ от 1 до 4 должен быть!\x1b[0m\n";
+            system("pause");
+            clear();
+            goto goAnswer;
+        }
+        else {
+            cout << "\n\x1b[91mУвы, ответ не верен \nМинус " << static_cast<char>(3) << "\x1b[0m\n";
+            countOfAttempts--;
+        }
+    }
+    cout << "\n\n\n\x1b[91m---------------------------------------------------------------------\n";
+    cout << "\t Игра окончена, вы ответили правильно, на \x1b[92m" << sum << "\x1b[91m вопросов из \x1b[92m" << numberOfQuestions;
+    cout << "\n\x1b[91m---------------------------------------------------------------------\x1b[0m\n";
+}
+
+//timer
+bool playingGame(time_t stopTime) {
+    char* stopTime2 = ctime(&stopTime);
+    cout << "\nИгра закончится в: \n" << stopTime2 << "\n";
+    time_t now = time(0);
+    if (stopTime > now) {
+        // Время осталось еще
+        return true;
+    }
+    // Время нет
+    cout << "\n\x1b[91mВремя игры истекло\x1b[0m\n";
+    return false;
 }
 
 void menu() {
@@ -187,7 +227,7 @@ void menu() {
     case 0:
         break;
     case 1:
-        clear();
+        randomizeQuestion();
         play();
         break;
     case 2:
@@ -202,33 +242,7 @@ void menu() {
     }
 }
 
-
-// ----- Таймер -----
-//bool plaingGame(time_t time_rel) {
-//
-//    time_t now = time(0);
-//    // convert now to string form
-//    char* startTime = ctime(&now);
-//    cout << "The local date and time is: " << startTime << endl;
-//    size_t Minutes = 1;
-//    time_t newTime = now + (60 * Minutes);
-//    char* StopTimer = ctime(&newTime);
-//    cout << "NewTime: " << StopTimer << endl;
-//    do
-//    {
-//
-//        //Тут будет код
-//
-//
-//        now = time(0);
-//    } while (newTime > now);
-//    cout << "stop";
-//    return true;
-//}
-
 int main(int argc, char* argv[]) {
-
-    //plaingGame();
     setlocale(0, "");
     menu();
     system("pause");
